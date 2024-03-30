@@ -142,13 +142,42 @@ public class OrderRepository {
     public Integer findOrdersLeftAfterGivenTimeByPartnerId(String timeString, String partnerId){
         // your code here
         int c=0;
+        HashSet<String> hs=new HashSet<>();
+        hs=partnerToOrderMap.get(partnerId);
+        for(String s:hs)
+        {
+            if(orderMap.containsKey(s))
+            {
+                Order order=orderMap.get(s);
+                int time=order.getDeliveryTime();
+                if(String.valueOf(time).compareTo(timeString)>0)
+                {
+                    c++;
+                }
+            }
+        }
         return c;
     }
 
     public String findLastDeliveryTimeByPartnerId(String partnerId){
         // your code here
         // code should return string in format HH:MM
-         return "";
+        String lasttime="00:00";
+        HashSet<String> hs=new HashSet<>();
+        hs=partnerToOrderMap.get(partnerId);
+        for(String st:hs)
+        {
+            if(orderMap.containsKey(st))
+            {
+                Order order=orderMap.get(st);
+                int time=order.getDeliveryTime();
+                if(String.valueOf(time).compareTo(lasttime)>0)
+                {
+                    lasttime=String.valueOf(time);
+                }
+            }
+        }
+         return lasttime;
     }
 }
 
