@@ -12,6 +12,8 @@ public class OrderRepository {
     private HashMap<String, HashSet<String>> partnerToOrderMap;
     private HashMap<String, String> orderToPartnerMap;
 
+
+
     public OrderRepository(){
         this.orderMap = new HashMap<String, Order>();
         this.partnerMap = new HashMap<String, DeliveryPartner>();
@@ -68,7 +70,12 @@ public class OrderRepository {
         }
     }
 
+
+
     public Integer findOrderCountByPartnerId(String partnerId){
+        if(orderToPartnerMap == null) {
+            return 0;
+        }
         int c=0;
         for(String s:orderToPartnerMap.keySet())
         {
@@ -79,6 +86,8 @@ public class OrderRepository {
         }
         return c;
     }
+
+
 
     public List<String> findOrdersByPartnerId(String partnerId){
         // your code here
@@ -135,8 +144,16 @@ public class OrderRepository {
     }
 
     public Integer findCountOfUnassignedOrders(){
-        // your code here
-        return orderMap.size()-partnerToOrderMap.size();
+        int x=orderMap.size(),y=orderToPartnerMap.size();
+        if(orderMap==null)
+        {
+            x=0;
+        }
+        if(orderToPartnerMap==null)
+        {
+            y=0;
+        }
+        return x-y;
     }
 
     public Integer findOrdersLeftAfterGivenTimeByPartnerId(String timeString, String partnerId){
